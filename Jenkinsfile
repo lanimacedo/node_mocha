@@ -16,7 +16,7 @@ pipeline {
       }
       post {
         always {
-          junit "log/*.xml"
+          junit "./mochawesome-report/*.json"
         }
       }
     }
