@@ -4,6 +4,11 @@ pipeline {
       image "node:8-alpine"
     }
   }
+  stage("Build") {
+    steps {
+      sh "npm install"
+    }
+  }
   stages {
     stage("Test") {
       steps {
