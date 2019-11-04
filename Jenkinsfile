@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage("Test") {
       steps {
-        sh "npm run test:ci"
+        sh "npm run test"
       }
       post {
         always {
