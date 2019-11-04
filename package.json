@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --opts ./test/specs/mocha.opts"
+    "test": "mocha --opts ./test/specs/mocha.opts --reporter mochawesome"
   },
   "author": "",
   "license": "ISC",
