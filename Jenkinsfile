@@ -14,11 +14,6 @@ pipeline {
       steps {
         sh "npm run test"
       }
-      post {
-        always {
-          junit "log/*.xml"
-        }
-      }
     }
   }
 }
