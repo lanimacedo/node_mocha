@@ -26,4 +26,18 @@ describe("Teste API magicthegathering.io", () => {
             // done()
         // expect(response.statusCode).to.equal(200)
     })
+    
+        it("Deve retornar com erro", (done) => {
+
+            let response
+            response = chai.request('https://api.magicthegathering.io/v1')
+            .get('/cards')
+            .end((err, res) => {
+                res.should.have.status(300);
+                console.log(res.status)
+                // res.body.should.be.a('array');
+                done()
+            })
+
+    })
 })
