@@ -1,0 +1,64 @@
+ambiente = ''
+suite = ''
+
+pipeline {
+  agent 'any'  
+   parameters {
+        string(name: 'CHANNEL', defaultValue: 'qa-team', description: 'Parametro usado para informar qual channel do slack deve logar')
+   }
+  stages {
+    stage('Test') {                     
+      steps {
+        slackSend channel: "${params.CHANNEL}", color: '#439FE0', message: ":robot_face: STARTED : ${env.JOB_NAME}"
+
+        script {
+          switch(env.JOB_NAME) {
+            case "CDT Jornada Boticario HML":
+              ambiente = 'boticario_hml'  
+              suite = '@jornada_completa'
+            break
+            case "CDT Jornada Boticario QA":
+              ambiente = 'boticario_qa'  
+              suite = '@jornada_completa'
+            break
+            case "CDT Endpoints QA":
+              ambiente = 'boticario_qa'  
+              suite = "@endpoints"
+            break
+            case "CDT Endpoints HML":
+              ambiente = 'boticario_hml'  
+              suite = "@endpoints"
+            break
+            case "CDT Jornada PRD":
+              ambiente = 'boticario_prd'  
+              suite = "@prd"
+            break
+          }
+        }
+
+          sh "mkdir -p target"
+          sh "cucumber --tags ${suite} -p ${ambiente} -p format_json -p format_html"
+      }      
+    }
+  }
+
+  post {
+    always {
+      cucumber buildStatus: "UNSTABLE",
+      fileIncludePattern: "**/*cucumber-jornada.json",
+      jsonReportDirectory: 'target'      
+
+      emailext mimeType: 'text/html', 
+      attachmentsPattern: 'target/cucumber-jornada.html', 
+      body: 'Link do relatório: ${BUILD_URL}cucumber-html-reports/overview-features.html <br /> <br /> Link do build ${BUILD_URL}', 
+      subject: '$PROJECT_NAME - $BUILD_STATUS' 
+      // to: 'salomao.garbim@conductor.com.br'
+    }
+    failure{
+      cucumberSlackSend channel: "${params.CHANNEL}", failOnError: true, json: 'target/cucumber-jornada.json'            
+    }
+    success{      
+      cucumberSlackSend channel: "${params.CHANNEL}", json: 'target/cucumber-jornada.json'            
+    }
+  }
+}

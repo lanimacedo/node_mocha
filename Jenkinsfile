@@ -12,7 +12,17 @@ pipeline {
     }
     stage("Test") {
       steps {
-        sh "npm run test"
+        script {
+          switch(env.JOB_NAME) {
+            case "Test 1":
+              suite = 'test1'
+            break
+            case "Test 2":
+              suite = 'test2'
+            break
+          }
+        }
+        sh "npm run ${suite}"
       }
       post {
         always {
