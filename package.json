@@ -6,8 +6,7 @@
   "scripts": {
     "test": "mocha --opts ./test/specs/mocha.opts --reporter mochawesome",
     "test1": "mocha --opts ./test/specs/test1/mocha.opts --reporter mocha-junit-reporter --reporter-options mochaFile=./log/report.xml --timeout 10000 --exit",
-    "test2": "mocha --opts ./test/specs/test2/mocha.opts --reporter mocha-junit-reporter --reporter-options mochaFile=./log/report.xml --timeout 10000 --exit",
-    "test:ci": "mocha --opts ./test/specs/mocha.opts --reporter mocha-junit-reporter --reporter-options mochaFile=./log/report.xml --timeout 10000 --exit"
+    "test2": "mocha --opts ./test/specs/test2/mocha.opts --reporter mocha-junit-reporter --reporter-options mochaFile=./log/report.xml --timeout 10000 --exit"
   },
   "author": "",
   "license": "ISC",
