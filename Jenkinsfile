@@ -1,3 +1,4 @@
+suite = ''
 pipeline {
   agent {
     docker {
